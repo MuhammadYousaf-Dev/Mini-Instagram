@@ -1,0 +1,33 @@
+# Build output
+build/
+out/
+cmake-build-*/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.pdb
+
+# Runtime-generated application data (created on first run by FileHandler;
+# committing it would ship other people's test data — and previously,
+# plaintext passwords — into the repo).
+data/
+
+# IDE / editor
+.vs/
+.vscode/
+*.vcxproj*
+*.sln
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (frontend tooling, if used)
+node_modules/

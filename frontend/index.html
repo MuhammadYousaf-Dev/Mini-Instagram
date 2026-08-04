@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialVerse - Connect & Share</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login/Register Screen -->
+    <div class="container" id="authContainer">
+        <div class="auth-card">
+            <div class="logo">
+                <i class="fas fa-share-alt"></i>
+                <h1>SocialVerse</h1>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <h2>Welcome Back!</h2>
+                <p>Sign in to continue</p>
+                
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="number" id="loginUserId" placeholder="User ID" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                
+                <button class="btn-primary" onclick="login()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                
+                <p class="switch-auth">
+                    Don't have an account? 
+                    <a href="#" onclick="showRegister()">Create one</a>
+                </p>
+            </div>
+            
+            <!-- Register Form -->
+            <div class="auth-form" id="registerForm">
+                <h2>Join SocialVerse</h2>
+                <p>Create your account</p>
+                
+                <div class="input-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="number" id="regUserId" placeholder="Choose User ID" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="regUsername" placeholder="Username" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="regPassword" placeholder="Password" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+                </div>
+                
+                <button class="btn-primary" onclick="register()">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+                
+                <p class="switch-auth">
+                    Already have an account? 
+                    <a href="#" onclick="showLogin()">Sign in</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="auth-decoration">
+            <div class="decoration-content">
+                <div class="floating-icons">
+                    <i class="fas fa-comments"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-share"></i>
+                </div>
+                <h2>Connect with the world</h2>
+                <p>Share your moments, follow friends, and discover amazing content</p>
+                <div class="demo-credentials">
+                    <p><i class="fas fa-info-circle"></i> Demo: ID 1 / pass123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Screen -->
+    <div class="app-container" id="appContainer" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-share-alt"></i>
+                <span>SocialVerse</span>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="displayUsername">Loading...</h3>
+                    <p>ID: <span id="displayUserId">-</span></p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" onclick="showSection('feed', event)">
+                    <i class="fas fa-home"></i>
+                    <span>Feed</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('posts', event)">
+                    <i class="fas fa-images"></i>
+                    <span>My Posts</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('stories', event)">
+                    <i class="fas fa-story"></i>
+                    <span>Stories</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('profile', event)">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('search', event)">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('following', event)">
+                    <i class="fas fa-users"></i>
+                    <span>Network</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('liked', event)">
+                    <i class="fas fa-heart"></i>
+                    <span>Liked Posts</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Feed Section -->
+            <div class="content-section active" id="feedSection">
+                <div class="section-header">
+                    <h2>Your Feed</h2>
+                    <div class="header-actions">
+                        <button class="btn-icon btn-refresh" onclick="refreshFeed()" title="Refresh">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn-primary" onclick="showCreatePostModal()">
+                            <i class="fas fa-plus"></i> New Post
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="feed-container" id="feedContainer">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i> Loading feed...
+                    </div>
+                </div>
+                
+                <div class="feed-navigation">
+                    <button class="nav-btn" id="prevFeedBtn" onclick="previousFeedPost()" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span id="feedCounter" class="nav-counter">Post 0 of 0</span>
+                    <button class="nav-btn" id="nextFeedBtn" onclick="nextFeedPost()" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Posts Section -->
+            <div class="content-section" id="postsSection">
+                <div class="section-header">
+                    <h2>My Posts</h2>
+                    <button class="btn-primary" onclick="showCreatePostModal()">
+                        <i class="fas fa-plus"></i> Create Post
+                    </button>
+                </div>
+                
+                <div class="posts-grid" id="postsGrid">
+                    <!-- Posts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Stories Section -->
+            <div class="content-section" id="storiesSection">
+                <div class="section-header">
+                    <h2>Stories</h2>
+                    <button class="btn-primary" onclick="showCreateStoryModal()">
+                        <i class="fas fa-plus"></i> Add Story
+                    </button>
+                </div>
+                
+                <div class="stories-container">
+                    <div class="stories-card">
+                        <h3><i class="fas fa-user"></i> My Stories</h3>
+                        <div id="myStoriesList" class="stories-list"></div>
+                    </div>
+                    
+                    <div class="stories-card">
+                        <h3><i class="fas fa-users"></i> From People You Follow</h3>
+                        <div id="followedStoriesList" class="stories-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="content-section" id="profileSection">
+                <div class="profile-header">
+                    <div class="profile-cover"></div>
+                    <div class="profile-info">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h2 id="profileUsername">Username</h2>
+                            <p class="profile-id">ID: <span id="profileUserId">-</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <span class="stat-value" id="statPosts">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statFollowers">0</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statFollowing">0</span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="statLikes">0</span>
+                        <span class="stat-label">Likes Received</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Section -->
+            <div class="content-section" id="searchSection">
+                <div class="section-header">
+                    <h2>Search Users</h2>
+                </div>
+                
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search by username..." autocomplete="off">
+                </div>
+                
+                <div id="searchResults" class="search-results"></div>
+            </div>
+
+            <!-- Following Section -->
+            <div class="content-section" id="followingSection">
+                <div class="section-header">
+                    <h2>Network</h2>
+                    <button class="btn-primary" onclick="showFollowModal()">
+                        <i class="fas fa-user-plus"></i> Follow User
+                    </button>
+                </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('following', event)">Following</button>
+                    <button class="tab-btn" onclick="switchTab('followers', event)">Followers</button>
+                </div>
+                
+                <div id="followingList" class="users-list"></div>
+                <div id="followersList" class="users-list" style="display: none;"></div>
+            </div>
+
+            <!-- Liked Posts Section -->
+            <div class="content-section" id="likedSection">
+                <div class="section-header">
+                    <h2>Posts You've Liked</h2>
+                </div>
+                
+                <div id="likedPostsList" class="liked-posts"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Create Post Modal -->
+    <div class="modal" id="createPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Post</h3>
+                <button class="close-btn" onclick="closeModal('createPostModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>What's on your mind?</label>
+                    <textarea id="newPostCaption" rows="4" placeholder="Share your thoughts..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('createPostModal')">Cancel</button>
+                <button class="btn-primary" onclick="createPost()">Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Story Modal -->
+    <div class="modal" id="createStoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Story</h3>
+                <button class="close-btn" onclick="closeModal('createStoryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Story Caption</label>
+                    <textarea id="storyCaption" rows="3" placeholder="Share a moment..." required></textarea>
+                </div>
+                <p class="help-text"><i class="fas fa-info-circle"></i> Your story will be available for 24 hours</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('createStoryModal')">Cancel</button>
+                <button class="btn-primary" onclick="createStory()">Add Story</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Follow User Modal -->
+    <div class="modal" id="followModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Follow User</h3>
+                <button class="close-btn" onclick="closeModal('followModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label>Enter User ID to follow:</label>
+                    <input type="number" id="followUserId" placeholder="User ID" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('followModal')">Cancel</button>
+                <button class="btn-primary" onclick="followUserById()">Follow</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Modal -->
+    <div class="modal" id="commentModal">
+        <div class="modal-content modal-lg">
+            <div class="modal-header">
+                <h3>Comments</h3>
+                <button class="close-btn" onclick="closeModal('commentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="commentsList" class="comments-list"></div>
+                
+                <div class="add-comment">
+                    <h4>Add a Comment</h4>
+                    <div class="input-group">
+                        <textarea id="commentText" rows="3" placeholder="Write your comment..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="addComment()">
+                        <i class="fas fa-paper-plane"></i> Post Comment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+        <!-- DSA Explanation Modal -->
+    <div class="modal" id="dsaModal"></div>
+
+    <!-- Story Viewer Modal -->
+    <div class="modal story-viewer-modal" id="storyViewer"></div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html>
