@@ -1,4 +1,4 @@
-# Social — A DSA-Driven Social Media Platform in C++
+# Mini-Instagram — A DSA-Driven Social Media Platform in C++
 
 ![CI](https://github.com/MuhammadYousaf-Dev/Mini-Instagram/actions/workflows/ci.yml/badge.svg)
 
