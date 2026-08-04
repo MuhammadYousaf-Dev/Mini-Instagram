@@ -1,5 +1,7 @@
 # Social — A DSA-Driven Social Media Platform in C++
 
+![CI](https://github.com/yourusername/social-dsa-cpp/actions/workflows/ci.yml/badge.svg)
+
 A small social media backend (console client + HTTP server + web frontend)
 built to demonstrate hand-written data structures — a prefix-search **Trie**,
 a **doubly linked list**, and hash-set-based relationship tracking — wired
